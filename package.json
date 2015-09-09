@@ -1,0 +1,13 @@
+{
+  "name": "chinese_fountain",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "dependencies": {
+    "bigint": "^0.4.2",
+    "bignum": "^0.10.2",
+    "mocha": "^2.2.5"
+  }
+}
