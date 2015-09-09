@@ -54,5 +54,5 @@ As far as I know, this original work is not encumbered with any patents.
 
 Uses cases for the Chinese Fountain include:
 
-- Delivering data over unreliable networks.  The sending side can generate and send packet from the fountain.  The receiving side needs to send a whole-message ACK on receipt of each packet, once the bucket is_complete.
+- Delivering data over unreliable networks.  The sending side can generate and send packet from the fountain.  The receiving side can ACK the message on receipt of each packet, once the bucket is_complete, in order to make the sender stop.  (Multiple ACKs may be required, over this unreliable connection.)
 - A global, distributed RAID system.
