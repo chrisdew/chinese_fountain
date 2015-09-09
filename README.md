@@ -36,3 +36,8 @@ From `lib/fountain-test.js`:
     assert.deepEqual('The quick brown fox jumped over the lazy dog.', reconstructed.toString('utf8'));
   });
 ```
+
+Uses cases for the Chinese Fountain include:
+
+- Delivering data over unreliable networks.  The sending side can generate and send packet from the fountain.  The receiving side need to send a STOP on receipt of each packet, once the bucket is_complete.
+- A global, distributed RAID system.
