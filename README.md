@@ -1,11 +1,13 @@
 Chinese Fountain
 ================
 
-Chinese Fountain is a Fountain Code based on Chinese Remainder Theorem.  https://en.wikipedia.org/wiki/Chinese_remainder_theorem
+Chinese Fountain is a [Fountain Code](https://en.wikipedia.org/wiki/Fountain_code) which I wrote, based on [Chinese Remainder Theorem](https://en.wikipedia.org/wiki/Chinese_remainder_theorem).
 
-This repo contains a Javascript implementation.  (I've also implemented it in C and Haskell, but that code is less readable.)
+This repo contains a Javascript implementation.  (I've also implemented it in C and Haskell, but that code is less readable.  The C version has a throughput of more than 40MiB/s/core on my 2009 Core 2 Duo laptop.)
 
-Given a block of data of size M, the Chinese Fountain can give you an almost infinite number packets of size N.  ("Almost infinite" is a few million, when using 32 bit slices.  This test uses 16 bit slices, where "almost infinite" is much smaller.)
+Given a block of data of size M, the Chinese Fountain can give you an almost infinite number packets of size N.
+
+"Almost infinite" is just the number of mutually co-prime numbers of less than, or equal to, 2^S, where S is the size of slice in bits.  That figure is a few million for 32 bit slices.  This demo uses 16 bit slices.
 
 As soon as the total size of (unique) packets pushed into a Bucket are larger than the original data, the bucket "is_complete" and the original data can be reproduced.
 
@@ -43,6 +45,12 @@ From `lib/fountain-test.js`:
     assert.deepEqual('The quick brown fox jumped over the lazy dog.', reconstructed.toString('utf8'));
   });
 ```
+
+I expect that this fountain code is far inferior in performance to [Raptor Codes](https://en.wikipedia.org/wiki/Raptor_code) and [Online Codes](https://en.wikipedia.org/wiki/Online_codes) and so is just a curiosity.
+
+What's the throughput of Raptor Codes?  "achieve linear time encoding and decoding complexity through a pre-coding stage of the input symbols" sounds very fast.
+
+As far as I know, this original work is not encumbered with any patents.
 
 Uses cases for the Chinese Fountain include:
 
