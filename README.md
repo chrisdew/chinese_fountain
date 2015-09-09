@@ -3,7 +3,7 @@ Chinese Fountain
 
 Chinese Fountain is a [Fountain Code](https://en.wikipedia.org/wiki/Fountain_code) which I wrote, based on [Chinese Remainder Theorem](https://en.wikipedia.org/wiki/Chinese_remainder_theorem).
 
-This repo contains a Javascript implementation.  (I've also implemented it in C and Haskell, but that code is less readable.  The C version has a throughput of more than 40MiB/s/core on my 2009 Core 2 Duo laptop.)
+This repo contains a Javascript implementation.  (I've also implemented it in C and Haskell, but that code is less readable.  The C version has a sustained decoding throughput of 40-50MiB/s/core on my 2009 Core 2 Duo laptop, which makes it pretty CPU-heavy for dealing with sequential data from/to disk.  Encoding is trival - a simple "N mod coprime".)
 
 Given a block of data of size M, the Chinese Fountain can give you an almost infinite number packets of size N.
 
