@@ -40,18 +40,20 @@ describe('16 bit fountain, with bundle_size of 6, no packet loss', function() {
     assert.deepEqual('The quick brown fox jumped over the lazy dog.', reconstructed.toString('utf8'));
   });
 
-  it('should split and combine, despite packet loss', function() {
+  it('should generate packets from a fountain, and regenerate the original data, despite (faked) packet loss', function() {
     var data = new Buffer('The quick brown fox jumped over the lazy dog.');
-    var fountain = new f.Fountain16(data, 6);
+    var fountain = new f.Fountain16(data, 6); // the packets are configured to be 6 bytes long
 
     var bucket = new f.Bucket16(null, data.length, 6);
 
     var packets_tx = 0;
     var packets_rx = 0;
     for (var i = 0; !bucket.is_complete(); i++) {
+      var packet = fountain.generate_packet(i);
+      assert.equal(6, packet.length);
       packets_tx++;
-      if (i % 3 === 0 || i % 5 === 0) continue; // packet loss
-      bucket.push(i, fountain.bundle_data(i));
+      if (i % 3 === 0 || i % 5 === 0) continue; // faking some packet loss
+      bucket.push(i, packet);
       packets_rx++;
     }
 

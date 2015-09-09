@@ -16,22 +16,29 @@ From `lib/fountain-test.js`:
 ```javascript
   it('should generate packets from a fountain, and regenerate the original data, despite (faked) packet loss', function() {
     var data = new Buffer('The quick brown fox jumped over the lazy dog.');
-    var fountain = new f.Fountain16(data, 6);
+    var fountain = new f.Fountain16(data, 6); // the packets are configured to be 6 bytes long
 
     var bucket = new f.Bucket16(null, data.length, 6);
 
     var packets_tx = 0;
     var packets_rx = 0;
     for (var i = 0; !bucket.is_complete(); i++) {
+      var packet = fountain.generate_packet(i);
+      assert.equal(6, packet.length);
       packets_tx++;
-      if (i % 3 === 0 || i % 5 === 0) continue; // faking some packet loss
-      bucket.push(i, fountain.bundle_data(i));
+
+      // fake some packet loss on a pretend network
+      // (non-deterministic packet loss would be fine too)
+      if (i % 3 === 0 || i % 5 === 0) continue; 
+
+      bucket.push(i, packet);
       packets_rx++;
     }
 
-    assert.deepEqual(17, packets_tx);
-    assert.deepEqual(9, packets_rx);
+    assert.deepEqual(17, packets_tx); // 17 packets transmitted
+    assert.deepEqual(9, packets_rx); // only 9 received
 
+    // 9 * 6 bytes = 54 bytes, which is more than the length of the original message, and therefore enough to regenerate the original data 
     var reconstructed = bucket.result();
     assert.deepEqual('The quick brown fox jumped over the lazy dog.', reconstructed.toString('utf8'));
   });
