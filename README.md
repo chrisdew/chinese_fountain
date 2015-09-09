@@ -14,7 +14,7 @@ As soon as the total size of (unique) packets pushed into a Bucket are larger th
 From `lib/fountain-test.js`:
 
 ```javascript
-  it('should split and combine, despite packet loss', function() {
+  it('should generate packets from a fountain, and regenerate the original data, despite (faked) packet loss', function() {
     var data = new Buffer('The quick brown fox jumped over the lazy dog.');
     var fountain = new f.Fountain16(data, 6);
 
